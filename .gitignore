@@ -1,0 +1,30 @@
+# Node modules
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# dotenv
+.env
+.env.local
+
+# build output
+dist/
+build/
+
+# Vite cache
+.vite/
+
+# IDE/editor configs
+.vscode/
+.idea/
+*.swp
+
+# misc
+*.log
