@@ -13,11 +13,20 @@ const registerUser = async (req, res) => {
     const newUser = new User({ username, email, password: hashedPassword });
     await newUser.save();
 
-    res.status(201).json({ message: "User registered successfully" });
+    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
+
+    res.status(201).json({ 
+      message: "User registered successfully",
+      token: token,         
+      id: newUser._id,      
+    });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
@@ -33,25 +42,28 @@ const loginUser = async (req, res) => {
       expiresIn: "1d",
     });
 
-    res.status(200).json({ message: "Login successful", token:token });
+    res.status(200).json({ 
+      message: "Login successful", 
+      token:token,
+      id:user._id 
+    
+    });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
 
 const updateUserProfile = async (req, res) => {
-  const userId = req.user;
+  const userId = req.user
   const { age, gender, height, weight, healthissue, activity } = req.body;
 
   try {
     // Optionally calculate BMI
-    const bmi =
-      height && weight ? (weight / (height / 100) ** 2).toFixed(2) : null;
+    const bmi = height && weight ? (weight / (height / 100) ** 2).toFixed(2) : null;
 
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      {
-        profile: {
+      {$set:{ profile: {
           age,
           gender,
           height,
@@ -59,18 +71,19 @@ const updateUserProfile = async (req, res) => {
           bmi,
           healthissue,
           activity,
-        },
+        },}
+       
       },
       { new: true }
     );
 
-    res
-      .status(200)
-      .json({ message: "Profile updated", profile: updatedUser.profile });
+    res.status(200).json({ 
+        message: "Profile updated", 
+        profile: updatedUser.profile });
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Error updating profile", error: err.message });
+       res.status(500).json({ 
+      message: "Error updating profile", 
+      error: err.message });
   }
 };
 
