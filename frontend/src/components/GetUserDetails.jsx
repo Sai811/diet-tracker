@@ -2,6 +2,7 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { UserContext } from "./UserContextProvider";
 import { useNavigate } from "react-router-dom";
+import { Button } from "./ui/button";
 
 export default function GetUserDetails(){
 
@@ -43,7 +44,7 @@ export default function GetUserDetails(){
         }
       );
     alert("Profile saved successfully!");
-    navigate("/dashboard");
+    navigate("/");
       
         }catch(err){
             console.error(err)
@@ -142,12 +143,12 @@ export default function GetUserDetails(){
             </select>
           </div>
 
-          <button
+          <Button
             type="submit"
-            className="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-2 rounded-md font-semibold"
+            className="w-full"
           >
             Save Profile
-          </button>
+          </Button>
         </form>
       </div>
     </div>

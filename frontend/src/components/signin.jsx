@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useState } from "react"
 import { Link } from "react-router-dom";
+import { Button } from "./ui/button";
 
   export default function Signin(){
 
@@ -68,7 +69,7 @@ import { Link } from "react-router-dom";
                     name="email"
                     id="email"
                     required
-                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-black sm:text-sm/6"
                   />
                 </div>
               </div>
@@ -94,22 +95,20 @@ import { Link } from "react-router-dom";
                     name="password"
                     id="password"
                     required
-                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-black sm:text-sm/6"
                   />
                 </div>
               </div>
 
               <div>
-                <button
-                  onClick={hitSignin}
-                  type="submit"
-                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
+                <Button 
+                  onClick={hitSignin} type="submit" className="w-full mb-2">
                   Sign in
-                </button>
+                </Button>
+                
               </div>
             </form>
-          <Link to="/signup">Dont have an account?</Link>
+          <Link className="text-indigo-600" to="/signup">Dont have an account?</Link>
           </div>
         </div>
       </>
