@@ -1,11 +1,13 @@
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {Link, useNavigate} from "react-router-dom"
+import { UserContext } from "./UserContextProvider";
 
 export default function Signup() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const userId = useContext(UserContext)
   const navigate = useNavigate()
 
   function handleChangeUsername(e) {
@@ -19,7 +21,7 @@ export default function Signup() {
     setPassword(e.target.value);
   }
 
-   function hitSignUp(e) {
+   async function hitSignUp(e) {
 
      e.preventDefault();
 
@@ -28,32 +30,34 @@ export default function Signup() {
       return;
     }
 
-    axios.post("http://localhost:5000/api/auth/register", {
+    const res = await axios.post("http://localhost:5000/api/auth/register", {
         username:username,
         email:email,
         password:password,
       })
-      .then(() => {
+      try{
         alert("You are signed up"); 
-        navigate("/signin");
-      })
-      .catch((err) => {
-        alert("Signup failed");
-        console.log(err);
-      });
+        userId.current = res.data.id
+        localStorage.setItem("userId",res.data.id)
+        localStorage.setItem("token",res.data.token)
+        navigate("/getUserDetails");
+      }catch(err){
+        console.error(err);
+        
+      }
   }
 
   return (
     <>
-      <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="flex min-h-full flex-col justify-center px-6 py-8 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img className="mx-auto h-30 w-auto" src="/images/brand-logo.jpg" alt="brand-logo"/>
-          <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
+          <img className="mx-auto h-50 w-80" src="/images/brand-logo.jpg" alt="brand-logo"/>
+          <h2 className="mt-2 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
             Sign up to your account
           </h2>
         </div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="mt-3 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6" action="#" method="POST">
             <div>
               <label className="block text-sm/6 font-medium text-gray-900">
@@ -105,7 +109,7 @@ export default function Signup() {
           </form>
 
           <div>
-      <Link to="/signin">Already Signed Up?</Link>      
+          <Link to="/">Already Signed Up?</Link>      
       </div>
         </div>
       </div>
